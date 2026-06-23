@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useAuthStore } from '../../lib/auth';
-import { Shield, Eye, EyeOff, Bot, Lock, Mail, User, ShieldAlert } from 'lucide-react';
+import { Shield, Eye, EyeOff, Bot, Lock, Mail, User, ShieldAlert, ChevronDown } from 'lucide-react';
 
 export default function RegisterPage() {
   const { register, error, clearError, isLoading } = useAuthStore();
@@ -156,12 +156,15 @@ export default function RegisterPage() {
               <select
                 value={role}
                 onChange={(e) => setRole(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 bg-slate-900/50 border border-slate-800 rounded-lg text-sm text-slate-100 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all font-medium appearance-none"
+                className="w-full pl-10 pr-10 py-2 bg-slate-900/50 border border-slate-800 rounded-lg text-sm text-slate-100 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all font-medium appearance-none cursor-pointer"
               >
-                <option value="STUDENT">Student (predefined safe ranges)</option>
-                <option value="SECURITY_ANALYST">Security Analyst (full toolkit)</option>
-                <option value="ADMIN">Admin (system manager)</option>
+                <option value="STUDENT" className="bg-[#050811] text-slate-100">Student (predefined safe ranges)</option>
+                <option value="SECURITY_ANALYST" className="bg-[#050811] text-slate-100">Security Analyst (full toolkit)</option>
+                <option value="ADMIN" className="bg-[#050811] text-slate-100">Admin (system manager)</option>
               </select>
+              <span className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 pointer-events-none">
+                <ChevronDown className="w-4 h-4" />
+              </span>
             </div>
           </div>
 

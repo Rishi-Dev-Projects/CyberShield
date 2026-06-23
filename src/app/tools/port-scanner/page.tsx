@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { useLayoutStore } from '../../../lib/layoutStore';
 import { useAuthStore } from '../../../lib/auth';
 import { api } from '../../../lib/api';
-import { Terminal, Shield, Play, Loader2, AlertCircle, CheckCircle2, ShieldAlert } from 'lucide-react';
+import { Terminal, Shield, Play, Loader2, AlertCircle, CheckCircle2, ShieldAlert, ChevronDown } from 'lucide-react';
 
 export default function PortScannerPage() {
   const { setContext } = useLayoutStore();
@@ -151,16 +151,21 @@ export default function PortScannerPage() {
 
           <div className="space-y-1.5">
             <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Scan Strategy</label>
-            <select
-              value={scanType}
-              onChange={(e) => setScanType(e.target.value)} // wait, typo, it should be setScanType! Let's check
-              className="w-full px-3 py-2 bg-slate-900/50 border border-slate-800 rounded-lg text-sm text-slate-100 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all font-medium appearance-none"
-            >
-              <option value="TCP_CONNECT">TCP Connect (-sT)</option>
-              <option value="SYN_STEALTH">SYN Stealth (-sS)</option>
-              <option value="UDP">UDP Scan (-sU)</option>
-              <option value="COMPREHENSIVE">Comprehensive (-sS -sV -O)</option>
-            </select>
+            <div className="relative">
+              <select
+                value={scanType}
+                onChange={(e) => setScanType(e.target.value)}
+                className="w-full pl-3 pr-10 py-2 bg-slate-900/50 border border-slate-800 rounded-lg text-sm text-slate-100 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all font-medium appearance-none cursor-pointer"
+              >
+                <option value="TCP_CONNECT" className="bg-[#0c0f1d] text-slate-100">TCP Connect (-sT)</option>
+                <option value="SYN_STEALTH" className="bg-[#0c0f1d] text-slate-100">SYN Stealth (-sS)</option>
+                <option value="UDP" className="bg-[#0c0f1d] text-slate-100">UDP Scan (-sU)</option>
+                <option value="COMPREHENSIVE" className="bg-[#0c0f1d] text-slate-100">Comprehensive (-sS -sV -O)</option>
+              </select>
+              <span className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 pointer-events-none">
+                <ChevronDown className="w-4 h-4" />
+              </span>
+            </div>
           </div>
 
           <div>

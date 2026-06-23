@@ -1,0 +1,214 @@
+{
+  "profiles": [],
+  "scan_jobs": [
+    {
+      "id": "wdpjepc2cb8s8q2hal9zh",
+      "type": "PORT_SCAN",
+      "target": "scanme.nmap.org",
+      "scanConfig": {
+        "scanType": "TCP_CONNECT",
+        "ports": "22,80,443,3000,3306,3389,8080"
+      },
+      "status": "COMPLETED",
+      "results": {
+        "target": "scanme.nmap.org",
+        "ports": [
+          {
+            "port": 22,
+            "state": "open",
+            "service": "ssh",
+            "version": "OpenSSH 8.9p1 Ubuntu 3ubuntu0.1"
+          },
+          {
+            "port": 80,
+            "state": "open",
+            "service": "http",
+            "version": "nginx 1.18.0"
+          },
+          {
+            "port": 443,
+            "state": "open",
+            "service": "https",
+            "version": "nginx 1.18.0 (SSL)"
+          },
+          {
+            "port": 3000,
+            "state": "open",
+            "service": "http-node",
+            "version": "Node.js Express App"
+          },
+          {
+            "port": 3306,
+            "state": "closed",
+            "service": "mysql",
+            "version": "-"
+          },
+          {
+            "port": 3389,
+            "state": "closed",
+            "service": "ms-wbt-server",
+            "version": "-"
+          },
+          {
+            "port": 8080,
+            "state": "open",
+            "service": "http-proxy",
+            "version": "Apache Tomcat 9.0.58"
+          }
+        ],
+        "scanDuration": 3.82,
+        "rawOutput": "# Nmap scan initiated\nNmap scan report for scanme.nmap.org\nHost is up.\nPORT     STATE SERVICE VERSION\n22/tcp open  ssh  OpenSSH 8.9p1 Ubuntu 3ubuntu0.1\n80/tcp open  http  nginx 1.18.0\n443/tcp open  https  nginx 1.18.0 (SSL)\n3000/tcp open  http-node  Node.js Express App\n8080/tcp open  http-proxy  Apache Tomcat 9.0.58"
+      },
+      "errorMsg": null,
+      "userId": "dcb597f3-3f26-453d-b294-330d23f0e16e",
+      "createdAt": "2026-06-23T08:20:51.829Z",
+      "completedAt": "2026-06-23T08:20:55.835Z"
+    },
+    {
+      "id": "ar2v0ialet51q3t35iy40c",
+      "type": "VULNERABILITY_ASSESSMENT",
+      "target": "scanme.nmap.org",
+      "scanConfig": {
+        "depth": "standard"
+      },
+      "status": "COMPLETED",
+      "results": {
+        "target": "scanme.nmap.org",
+        "vulnerabilities": [
+          {
+            "cveId": "CVE-2023-25136",
+            "severity": "MEDIUM",
+            "description": "A pre-auth double free vulnerability in OpenSSH server releases 9.1 allows remote Denial of Service.",
+            "affectedService": "OpenSSH/9.1",
+            "cvssScore": 6.5,
+            "remediation": "Update OpenSSH to version 9.2 or apply strict connection rules.",
+            "references": [
+              "https://www.openssh.com/txt/release-9.2"
+            ]
+          },
+          {
+            "cveId": "CVE-2023-38408",
+            "severity": "LOW",
+            "description": "OpenSSH agent forwarding security restriction bypass vulnerability allows local agents hijacking under specialized environment.",
+            "affectedService": "OpenSSH Agent/8.9p1",
+            "cvssScore": 4.2,
+            "remediation": "Ensure ssh agent forwarding is only enabled for secure servers and restrict user privileges.",
+            "references": [
+              "https://www.openssh.com/txt/release-8.9"
+            ]
+          }
+        ],
+        "summary": {
+          "critical": 0,
+          "high": 0,
+          "medium": 1,
+          "low": 1,
+          "informational": 0
+        }
+      },
+      "errorMsg": null,
+      "userId": "dcb597f3-3f26-453d-b294-330d23f0e16e",
+      "createdAt": "2026-06-23T08:21:15.563Z",
+      "completedAt": "2026-06-23T08:21:19.507Z"
+    },
+    {
+      "id": "9t1fejot93ud7bk8e4muji",
+      "type": "PORT_SCAN",
+      "target": "scanme.nmap.org",
+      "scanConfig": {
+        "scanType": "UDP",
+        "ports": "22,80,443,3000,3306,3389,8080"
+      },
+      "status": "COMPLETED",
+      "results": {
+        "target": "scanme.nmap.org",
+        "ports": [
+          {
+            "port": 22,
+            "state": "open",
+            "service": "ssh",
+            "version": "OpenSSH 8.9p1 Ubuntu 3ubuntu0.1"
+          },
+          {
+            "port": 80,
+            "state": "open",
+            "service": "http",
+            "version": "nginx 1.18.0"
+          },
+          {
+            "port": 443,
+            "state": "open",
+            "service": "https",
+            "version": "nginx 1.18.0 (SSL)"
+          },
+          {
+            "port": 3000,
+            "state": "open",
+            "service": "http-node",
+            "version": "Node.js Express App"
+          },
+          {
+            "port": 3306,
+            "state": "closed",
+            "service": "mysql",
+            "version": "-"
+          },
+          {
+            "port": 3389,
+            "state": "closed",
+            "service": "ms-wbt-server",
+            "version": "-"
+          },
+          {
+            "port": 8080,
+            "state": "open",
+            "service": "http-proxy",
+            "version": "Apache Tomcat 9.0.58"
+          }
+        ],
+        "scanDuration": 3.82,
+        "rawOutput": "# Nmap scan initiated\nNmap scan report for scanme.nmap.org\nHost is up.\nPORT     STATE SERVICE VERSION\n22/tcp open  ssh  OpenSSH 8.9p1 Ubuntu 3ubuntu0.1\n80/tcp open  http  nginx 1.18.0\n443/tcp open  https  nginx 1.18.0 (SSL)\n3000/tcp open  http-node  Node.js Express App\n8080/tcp open  http-proxy  Apache Tomcat 9.0.58"
+      },
+      "errorMsg": null,
+      "userId": "dcb597f3-3f26-453d-b294-330d23f0e16e",
+      "createdAt": "2026-06-23T08:31:02.864Z",
+      "completedAt": "2026-06-23T08:31:06.852Z"
+    }
+  ],
+  "file_hashes": [],
+  "url_analyses": [],
+  "reports": [],
+  "audit_logs": [],
+  "rate_limits": [
+    {
+      "id": "1",
+      "tool": "authentication",
+      "limit": 5,
+      "window": 900
+    },
+    {
+      "id": "2",
+      "tool": "port_scan",
+      "limit": 10,
+      "window": 3600
+    },
+    {
+      "id": "3",
+      "tool": "vulnerability_scan",
+      "limit": 5,
+      "window": 3600
+    },
+    {
+      "id": "4",
+      "tool": "file_check",
+      "limit": 20,
+      "window": 3600
+    },
+    {
+      "id": "5",
+      "tool": "url_analysis",
+      "limit": 50,
+      "window": 3600
+    }
+  ]
+}

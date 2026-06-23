@@ -14,6 +14,16 @@ export default function LoginPage() {
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [validationError, setValidationError] = useState<string | null>(null);
+  const [showConfirmAlert, setShowConfirmAlert] = useState(false);
+
+  React.useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const searchParams = new URLSearchParams(window.location.search);
+      if (searchParams.get('registered') === 'true' || searchParams.get('confirm') === 'true') {
+        setShowConfirmAlert(true);
+      }
+    }
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -50,6 +60,14 @@ export default function LoginPage() {
             Console Authentication
           </p>
         </div>
+
+        {/* Email confirmation alert */}
+        {showConfirmAlert && (
+          <div className="p-3 bg-primary/10 border border-primary/30 text-primary text-xs font-bold rounded-lg mb-6 flex items-start gap-2 shadow-neon-cyan/20 animate-pulse">
+            <span className="w-1.5 h-1.5 rounded-full bg-primary mt-1.5 flex-shrink-0" />
+            <span>Registration successful! A confirmation email has been sent. Please verify your email before logging in.</span>
+          </div>
+        )}
 
         {/* Action errors alerts */}
         {(error || validationError) && (

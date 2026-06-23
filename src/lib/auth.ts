@@ -40,30 +40,29 @@ export const useAuthStore = create<AuthState>((set) => ({
     try {
       if (isSupabaseConfigured()) {
         const { data: { session } } = await supabase.auth.getSession();
-        if (session?.user) {
+         if (session?.user) {
           const { data: profile } = await supabase
             .from('profiles')
             .select('*')
             .eq('id', session.user.id)
-            .single();
+            .maybeSingle();
 
-          if (profile) {
-            const activeUser: UserProfile = {
-              id: profile.id,
-              username: profile.username,
-              email: profile.email,
-              role: profile.role,
-              isActive: profile.is_active,
-              createdAt: profile.created_at
-            };
-            set({
-              user: activeUser,
-              isAuthenticated: true,
-            });
-            localStorage.setItem('demo_user', JSON.stringify(activeUser));
-            set({ isLoading: false });
-            return;
-          }
+          const activeUser: UserProfile = {
+            id: session.user.id,
+            username: profile?.username || session.user.user_metadata?.username || session.user.email?.split('@')[0] || 'analyst',
+            email: session.user.email || '',
+            role: profile?.role || session.user.user_metadata?.role || 'STUDENT',
+            isActive: profile?.is_active !== undefined ? profile.is_active : true,
+            createdAt: profile?.created_at || session.user.created_at || new Date().toISOString()
+          };
+
+          set({
+            user: activeUser,
+            isAuthenticated: true,
+          });
+          localStorage.setItem('demo_user', JSON.stringify(activeUser));
+          set({ isLoading: false });
+          return;
         }
       } else {
         // Mock offline session check from localStorage
@@ -98,15 +97,15 @@ export const useAuthStore = create<AuthState>((set) => ({
           .from('profiles')
           .select('*')
           .eq('id', data.user.id)
-          .single();
+          .maybeSingle();
 
         const activeUser: UserProfile = {
           id: data.user.id,
-          username: profile?.username || data.user.email?.split('@')[0] || 'analyst',
+          username: profile?.username || data.user.user_metadata?.username || data.user.email?.split('@')[0] || 'analyst',
           email: data.user.email || '',
-          role: profile?.role || (credentials.email.includes('admin') ? 'ADMIN' : credentials.email.includes('analyst') ? 'SECURITY_ANALYST' : 'STUDENT'),
-          isActive: true,
-          createdAt: profile?.created_at || new Date().toISOString()
+          role: profile?.role || data.user.user_metadata?.role || 'STUDENT',
+          isActive: profile?.is_active !== undefined ? profile.is_active : true,
+          createdAt: profile?.created_at || data.user.created_at || new Date().toISOString()
         };
 
         localStorage.setItem('demo_user', JSON.stringify(activeUser));
@@ -150,7 +149,13 @@ export const useAuthStore = create<AuthState>((set) => ({
       if (isSupabaseConfigured()) {
         const { data: signUpData, error: signUpErr } = await supabase.auth.signUp({
           email: data.email,
-          password: data.password
+          password: data.password,
+          options: {
+            data: {
+              role: data.role || 'STUDENT',
+              username: data.username
+            }
+          }
         });
 
         if (signUpErr) throw signUpErr;

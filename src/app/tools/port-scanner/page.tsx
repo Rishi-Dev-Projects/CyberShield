@@ -107,11 +107,29 @@ export default function PortScannerPage() {
         ports: ports || undefined
       });
 
-      const { id, status } = res.data;
-      setJobId(id);
-      setJobStatus(status);
-      addLog(`Job successfully queued with ID: ${id}`);
-      addLog(`Waiting for available daemon slot...`);
+      const job = res.data;
+      setJobId(job.id);
+      setJobStatus(job.status);
+
+      if (job.status === 'COMPLETED') {
+        setIsLoading(false);
+        const portsData = job.results?.ports || [];
+        setScanResults(job.results);
+        addLog(`Job completed instantly with ID: ${job.id}`);
+        addLog(`SUCCESS: Target scan complete. Found ${portsData.length} active ports.`);
+        setContext({
+          tool: 'port-scanner',
+          data: { ports: portsData }
+        });
+      } else if (job.status === 'FAILED') {
+        setIsLoading(false);
+        const errMsg = job.errorMsg || 'Scan job failed at daemon execution.';
+        setError(errMsg);
+        addLog(`ERROR: Daemon reported failure: ${errMsg}`);
+      } else {
+        addLog(`Job successfully queued with ID: ${job.id}`);
+        addLog(`Waiting for available daemon slot...`);
+      }
     } catch (err: any) {
       setIsLoading(false);
       const errMsg = err.response?.data?.error?.message || 'Failed to dispatch port scan job.';

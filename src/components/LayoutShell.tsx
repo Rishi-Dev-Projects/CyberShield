@@ -6,9 +6,11 @@ import { useAuthStore } from '../lib/auth';
 import Sidebar from './Sidebar';
 import Navbar from './Navbar';
 import AIAssistant from './AIAssistant';
+import { useLayoutStore } from '../lib/layoutStore';
 
 export default function LayoutShell({ children }: { children: React.ReactNode }) {
   const { isAuthenticated, initialize, isLoading } = useAuthStore();
+  const { isSidebarOpen, setSidebarOpen } = useLayoutStore();
   const pathname = usePathname();
   const router = useRouter();
 
@@ -33,6 +35,11 @@ export default function LayoutShell({ children }: { children: React.ReactNode })
     }
   }, [pathname, isAuthenticated, isLoading, router]);
 
+  // Automatically close sidebar on route changes
+  useEffect(() => {
+    setSidebarOpen(false);
+  }, [pathname, setSidebarOpen]);
+
   if (isLoading) {
     return (
       <div className="w-full h-screen bg-[#050811] flex flex-col items-center justify-center gap-4">
@@ -53,13 +60,21 @@ export default function LayoutShell({ children }: { children: React.ReactNode })
 
   // For authenticated pages, wrap in sidebar, navbar, and AI side panels
   return (
-    <div className="min-h-screen bg-[#050811] text-slate-100">
+    <div className="min-h-screen bg-[#050811] text-slate-100 overflow-x-hidden">
       <Sidebar />
       <Navbar />
+
+      {/* Backdrop overlay for mobile sidebar */}
+      {isSidebarOpen && (
+        <div 
+          onClick={() => setSidebarOpen(false)}
+          className="fixed inset-0 bg-black/60 backdrop-blur-sm z-25 lg:hidden transition-opacity duration-300"
+        />
+      )}
       
       {/* Main dashboard content */}
-      <main className="pl-64 pt-16 min-h-screen grid-bg relative transition-all duration-300">
-        <div className="p-8 max-w-6xl mx-auto pb-24">
+      <main className="pl-0 lg:pl-64 pt-16 min-h-screen grid-bg relative transition-all duration-300">
+        <div className="p-4 md:p-8 max-w-6xl mx-auto pb-24">
           {children}
         </div>
       </main>

@@ -97,19 +97,19 @@ export default function DashboardPage() {
   return (
     <div className="space-y-8">
       {/* Welcome header */}
-      <div className="flex justify-between items-center bg-slate-900/10 p-6 rounded-2xl border border-slate-800/30">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center bg-slate-900/10 p-6 rounded-2xl border border-slate-800/30 gap-4">
         <div>
-          <h2 className="text-2xl font-black text-white">
+          <h2 className="text-xl md:text-2xl font-black text-white">
             Console Active: {user?.username}
           </h2>
-          <p className="text-sm text-slate-400 mt-1 font-medium">
+          <p className="text-xs md:text-sm text-slate-400 mt-1 font-medium">
             Assigned Level: <span className="text-primary font-bold">{user?.role}</span>. Clear to trigger network testing profiles.
           </p>
         </div>
         <button
           onClick={fetchDashboardData}
           disabled={isRefreshing}
-          className="p-3 bg-slate-900/40 border border-slate-800/60 rounded-xl hover:border-primary/50 text-slate-400 hover:text-white transition-all disabled:opacity-50"
+          className="p-3 bg-slate-900/40 border border-slate-800/60 rounded-xl hover:border-primary/50 text-slate-400 hover:text-white transition-all disabled:opacity-50 flex-shrink-0"
           title="Manually query endpoints"
         >
           <RefreshCw className={`w-5 h-5 ${isRefreshing ? 'animate-spin text-primary' : ''}`} />

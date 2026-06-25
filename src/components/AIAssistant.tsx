@@ -46,7 +46,7 @@ export default function AIAssistant() {
   if (!isAiOpen) return null;
 
   return (
-    <div className="fixed inset-y-0 right-0 w-80 bg-slate-950/95 border-l border-slate-800/80 shadow-2xl z-40 flex flex-col justify-between backdrop-blur-md animate-slide-in">
+    <div className="fixed inset-y-0 right-0 w-80 max-w-[85vw] bg-slate-950/95 border-l border-slate-800/80 shadow-2xl z-40 flex flex-col justify-between backdrop-blur-md animate-slide-in">
       {/* Header */}
       <div className="p-4 border-b border-slate-800/50 flex items-center justify-between bg-slate-900/40">
         <div className="flex items-center gap-2">

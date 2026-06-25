@@ -827,6 +827,69 @@
       "userId": "admin-id",
       "createdAt": "2026-06-25T06:21:41.793Z",
       "completedAt": "2026-06-25T06:21:45.933Z"
+    },
+    {
+      "id": "ja0bu84zqlhl6cdo3lrgm",
+      "type": "PORT_SCAN",
+      "target": "scanme.nmap.org",
+      "scanConfig": {
+        "scanType": "TCP_CONNECT",
+        "ports": "22,80,443,3000,3306,3389,8080"
+      },
+      "status": "COMPLETED",
+      "results": {
+        "target": "scanme.nmap.org",
+        "ports": [
+          {
+            "port": 22,
+            "state": "open",
+            "service": "ssh",
+            "version": "OpenSSH 8.9p1 Ubuntu 3ubuntu0.1"
+          },
+          {
+            "port": 80,
+            "state": "open",
+            "service": "http",
+            "version": "nginx 1.18.0"
+          },
+          {
+            "port": 443,
+            "state": "closed",
+            "service": "https",
+            "version": "-"
+          },
+          {
+            "port": 3000,
+            "state": "closed",
+            "service": "http-node",
+            "version": "-"
+          },
+          {
+            "port": 3306,
+            "state": "closed",
+            "service": "mysql",
+            "version": "-"
+          },
+          {
+            "port": 3389,
+            "state": "closed",
+            "service": "ms-wbt-server",
+            "version": "-"
+          },
+          {
+            "port": 8080,
+            "state": "closed",
+            "service": "http-proxy",
+            "version": "-"
+          }
+        ],
+        "scanDuration": 1.966,
+        "rawOutput": "# Custom Socket TCP scan initiated\nScan report for scanme.nmap.org\nHost is up.\nPORT     STATE SERVICE VERSION\n22/tcp open  ssh  OpenSSH 8.9p1 Ubuntu 3ubuntu0.1\n80/tcp open  http  nginx 1.18.0"
+      },
+      "errorMsg": null,
+      "userId": "7e991c08-5dcc-440d-a7d3-8103a9f12af6",
+      "createdAt": "2026-06-25T15:47:42.258Z",
+      "completedAt": "2026-06-25T15:47:44.554Z"
     }
   ],
   "file_hashes": [

@@ -1,45 +1,10 @@
 import { NextResponse } from 'next/server';
 import crypto from 'crypto';
-import fs from 'fs';
-import path from 'path';
-import { supabase } from '@/lib/supabase';
+import { db } from '@/lib/db';
 import { getUserContext, errorResponse, checkRateLimit, logAudit } from '@/lib/api-utils';
 
-const isSupabaseConfigured = () => {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  return url && !url.includes('placeholder-project');
-};
-
 async function getStoredHashByFilename(filename: string) {
-  if (isSupabaseConfigured()) {
-    try {
-      const { data, error } = await supabase
-        .from('file_hashes')
-        .select('*')
-        .eq('filename', filename)
-        .order('createdAt', { ascending: false })
-        .limit(1);
-      if (!error && data && data.length > 0) return data[0];
-    } catch (e) {
-      console.error('Supabase query failed for file verify:', e);
-    }
-  }
-
-  // Fallback to local JSON database search
-  const dbPath = path.join(process.cwd(), 'cybershield-db.json');
-  if (fs.existsSync(dbPath)) {
-    try {
-      const localDb = JSON.parse(fs.readFileSync(dbPath, 'utf-8'));
-      const hashes = localDb.file_hashes || [];
-      const match = hashes
-        .filter((h: any) => h && h.filename === filename)
-        .sort((a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
-      if (match.length > 0) return match[0];
-    } catch (e) {
-      console.error('Failed to read local DB for file verify:', e);
-    }
-  }
-  return null;
+  return db.getFileHashByFilename(filename);
 }
 
 export async function POST(req: Request) {

@@ -2,39 +2,84 @@ import fs from 'fs';
 import path from 'path';
 import { supabase } from './supabase';
 
-const LOCAL_DB_PATH = path.join(process.cwd(), 'cybershield-db.json');
+const getDbPath = () => {
+  if (process.env.VERCEL || process.env.NODE_ENV === 'production') {
+    return path.join('/tmp', 'cybershield-db.json');
+  }
+  return path.join(process.cwd(), 'cybershield-db.json');
+};
+
+const LOCAL_DB_PATH = getDbPath();
+const PACKAGED_DB_PATH = path.join(process.cwd(), 'cybershield-db.json');
+
+// Extend global scope for Next.js hot-reload persistence
+declare global {
+  var __cybershieldDb: any;
+}
 
 // Helper to initialize or read local JSON database fallback
 function getLocalDb() {
-  if (!fs.existsSync(LOCAL_DB_PATH)) {
-    const initialDb = {
-      profiles: [],
-      scan_jobs: [],
-      file_hashes: [],
-      url_analyses: [],
-      reports: [],
-      audit_logs: [],
-      rate_limits: [
-        { id: '1', tool: 'authentication', limit: 5, window: 900 },
-        { id: '2', tool: 'port_scan', limit: 10, window: 3600 },
-        { id: '3', tool: 'vulnerability_scan', limit: 5, window: 3600 },
-        { id: '4', tool: 'file_check', limit: 20, window: 3600 },
-        { id: '5', tool: 'url_analysis', limit: 50, window: 3600 }
-      ]
-    };
-    fs.writeFileSync(LOCAL_DB_PATH, JSON.stringify(initialDb, null, 2));
-    return initialDb;
+  if (globalThis.__cybershieldDb) {
+    return globalThis.__cybershieldDb;
   }
-  try {
-    return JSON.parse(fs.readFileSync(LOCAL_DB_PATH, 'utf-8'));
-  } catch (err) {
-    console.error('Error reading local DB:', err);
-    return { profiles: [], scan_jobs: [], file_hashes: [], url_analyses: [], reports: [], audit_logs: [], rate_limits: [] };
+
+  // Copy seed DB to /tmp if it's missing on serverless environment
+  if (LOCAL_DB_PATH !== PACKAGED_DB_PATH && !fs.existsSync(LOCAL_DB_PATH)) {
+    try {
+      if (fs.existsSync(PACKAGED_DB_PATH)) {
+        fs.copyFileSync(PACKAGED_DB_PATH, LOCAL_DB_PATH);
+      }
+    } catch (err) {
+      console.error('Failed to seed DB to /tmp:', err);
+    }
   }
+
+  if (fs.existsSync(LOCAL_DB_PATH)) {
+    try {
+      const data = JSON.parse(fs.readFileSync(LOCAL_DB_PATH, 'utf-8'));
+      globalThis.__cybershieldDb = data;
+      return data;
+    } catch (err) {
+      console.error('Error reading local DB from LOCAL_DB_PATH:', err);
+    }
+  }
+
+  if (fs.existsSync(PACKAGED_DB_PATH)) {
+    try {
+      const data = JSON.parse(fs.readFileSync(PACKAGED_DB_PATH, 'utf-8'));
+      globalThis.__cybershieldDb = data;
+      return data;
+    } catch (err) {
+      console.error('Error reading packaged DB:', err);
+    }
+  }
+
+  const initialDb = {
+    profiles: [],
+    scan_jobs: [],
+    file_hashes: [],
+    url_analyses: [],
+    reports: [],
+    audit_logs: [],
+    rate_limits: [
+      { id: '1', tool: 'authentication', limit: 5, window: 900 },
+      { id: '2', tool: 'port_scan', limit: 10, window: 3600 },
+      { id: '3', tool: 'vulnerability_scan', limit: 5, window: 3600 },
+      { id: '4', tool: 'file_check', limit: 20, window: 3600 },
+      { id: '5', tool: 'url_analysis', limit: 50, window: 3600 }
+    ]
+  };
+  globalThis.__cybershieldDb = initialDb;
+  return initialDb;
 }
 
 function writeLocalDb(data: any) {
+  globalThis.__cybershieldDb = data;
   try {
+    const dir = path.dirname(LOCAL_DB_PATH);
+    if (!fs.existsSync(dir)) {
+      fs.mkdirSync(dir, { recursive: true });
+    }
     fs.writeFileSync(LOCAL_DB_PATH, JSON.stringify(data, null, 2));
   } catch (err) {
     console.error('Failed to write local DB:', err);
@@ -263,6 +308,27 @@ export const db = {
     local.file_hashes.push(newHash);
     writeLocalDb(local);
     return newHash;
+  },
+
+  async getFileHashByFilename(filename: string) {
+    if (isSupabaseConfigured()) {
+      try {
+        const { data, error } = await supabase
+          .from('file_hashes')
+          .select('*')
+          .eq('filename', filename)
+          .order('createdAt', { ascending: false })
+          .limit(1);
+        if (!error && data && data.length > 0) return data[0];
+      } catch (e) {
+        console.error('Supabase query failed for getFileHashByFilename:', e);
+      }
+    }
+    const hashes = getLocalDb().file_hashes || [];
+    const match = hashes
+      .filter((h: any) => h && h.filename === filename)
+      .sort((a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+    return match.length > 0 ? match[0] : null;
   },
 
   // URL cache reputation

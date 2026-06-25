@@ -4,6 +4,7 @@ import React from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useAuthStore } from '../lib/auth';
+import { useLayoutStore } from '../lib/layoutStore';
 import { 
   Shield, 
   LayoutDashboard, 
@@ -14,11 +15,13 @@ import {
   FileCheck, 
   Globe, 
   User,
-  LogOut
+  LogOut,
+  X
 } from 'lucide-react';
 
 export default function Sidebar() {
   const { user, logout } = useAuthStore();
+  const { isSidebarOpen, setSidebarOpen } = useLayoutStore();
   const pathname = usePathname();
   const router = useRouter();
 
@@ -57,14 +60,25 @@ export default function Sidebar() {
 
 
   return (
-    <aside className="w-64 h-screen fixed left-0 top-0 glass-panel border-r border-slate-800/50 flex flex-col justify-between z-30">
+    <aside className={`w-64 h-screen fixed left-0 top-0 glass-panel border-r border-slate-800/50 flex flex-col justify-between z-30 transition-transform duration-300 ${
+      isSidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
+    }`}>
       {/* Header */}
       <div>
-        <div className="h-16 flex items-center px-6 border-b border-slate-800/40 gap-3">
-          <Shield className="w-7 h-7 text-primary shadow-neon-cyan animate-pulse" />
-          <span className="font-extrabold text-xl tracking-wider bg-gradient-to-r from-primary to-cyan-400 bg-clip-text text-transparent">
-            CYBER<span className="text-white">SHIELD</span>
-          </span>
+        <div className="h-16 flex items-center justify-between px-6 border-b border-slate-800/40 gap-3">
+          <div className="flex items-center gap-3">
+            <Shield className="w-7 h-7 text-primary shadow-neon-cyan animate-pulse" />
+            <span className="font-extrabold text-xl tracking-wider bg-gradient-to-r from-primary to-cyan-400 bg-clip-text text-transparent">
+              CYBER<span className="text-white">SHIELD</span>
+            </span>
+          </div>
+          {/* Close button on mobile */}
+          <button
+            onClick={() => setSidebarOpen(false)}
+            className="lg:hidden p-1 rounded-md text-slate-400 hover:text-white hover:bg-slate-800/50 transition-colors"
+          >
+            <X className="w-5 h-5" />
+          </button>
         </div>
 
         {/* User Card */}

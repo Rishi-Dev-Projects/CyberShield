@@ -4,11 +4,11 @@ import React, { useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
 import { useLayoutStore } from '../lib/layoutStore';
 import { api } from '../lib/api';
-import { Bot, HelpCircle, Activity, ShieldAlert } from 'lucide-react';
+import { Bot, HelpCircle, Activity, ShieldAlert, Menu } from 'lucide-react';
 
 export default function Navbar() {
   const pathname = usePathname();
-  const { toggleAi, isAiOpen } = useLayoutStore();
+  const { toggleAi, isAiOpen, toggleSidebar } = useLayoutStore();
   const [systemHealthy, setSystemHealthy] = useState(true);
 
   // Poll system health briefly to show green/red indicator in header
@@ -41,10 +41,18 @@ export default function Navbar() {
   };
 
   return (
-    <header className="h-16 fixed top-0 right-0 left-64 glass-panel border-b border-slate-800/40 px-8 flex items-center justify-between z-20">
+    <header className="h-16 fixed top-0 right-0 left-0 lg:left-64 glass-panel border-b border-slate-800/40 px-4 md:px-8 flex items-center justify-between z-20 transition-all duration-300">
       {/* Page Title */}
-      <div>
-        <h1 className="text-lg font-bold text-white tracking-wide">
+      <div className="flex items-center gap-3">
+        {/* Toggle mobile sidebar */}
+        <button
+          onClick={toggleSidebar}
+          className="lg:hidden text-slate-400 hover:text-white p-1.5 rounded-md hover:bg-slate-800/50 transition-colors cursor-pointer"
+          title="Toggle navigation"
+        >
+          <Menu className="w-5 h-5" />
+        </button>
+        <h1 className="text-sm md:text-lg font-bold text-white tracking-wide truncate">
           {getPageTitle()}
         </h1>
       </div>

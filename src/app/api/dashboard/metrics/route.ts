@@ -10,10 +10,8 @@ export async function GET(req: Request) {
 
   try {
     const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
-    const isStudent = user.role === 'STUDENT';
-    
-    // Filter metrics for students to only see their own scans
-    const userIdFilter = isStudent ? user.id : undefined;
+    // Filter metrics to only show the logged-in user's scans
+    const userIdFilter = user.id;
 
     const [scansLast30Days, activeJobs, criticalVulnerabilities, recentScans] = await Promise.all([
       db.getScansCount(thirtyDaysAgo, userIdFilter),

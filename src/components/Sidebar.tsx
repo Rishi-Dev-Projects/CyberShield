@@ -2,7 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { useAuthStore } from '../lib/auth';
 import { 
   Shield, 
@@ -13,12 +13,14 @@ import {
   Hash, 
   FileCheck, 
   Globe, 
-  User
+  User,
+  LogOut
 } from 'lucide-react';
 
 export default function Sidebar() {
-  const { user } = useAuthStore();
+  const { user, logout } = useAuthStore();
   const pathname = usePathname();
+  const router = useRouter();
 
   const getRoleColor = (role: string) => {
     switch (role) {
@@ -110,6 +112,19 @@ export default function Sidebar() {
         </nav>
       </div>
 
+      {/* Sidebar Footer / Logout */}
+      <div className="p-4 border-t border-slate-800/40">
+        <button
+          onClick={async () => {
+            await logout();
+            router.push('/login');
+          }}
+          className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-rose-450 hover:text-rose-350 hover:bg-rose-500/10 border border-transparent hover:border-rose-500/20 transition-all cursor-pointer font-semibold uppercase tracking-wider text-xs"
+        >
+          <LogOut className="w-4 h-4" />
+          <span>Exit Console</span>
+        </button>
+      </div>
     </aside>
   );
 }

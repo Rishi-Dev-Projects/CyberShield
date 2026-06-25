@@ -87,7 +87,7 @@ const VULN_TEMPLATES: VulnerabilityTemplate[] = [
   }
 ];
 
-async function runVulnerabilityScan(jobId: string, target: string, depth: string) {
+async function runVulnerabilityScan(jobId: string, target: string, depth: string): Promise<void> {
   try {
     await db.updateScanJob(jobId, { status: 'RUNNING' });
     
@@ -186,13 +186,16 @@ export async function POST(req: Request) {
       userId: user.id
     });
 
-    // Run audit in background
-    runVulnerabilityScan(job.id, target, depth || 'standard');
+    // Run audit and wait for it to complete (crucial for Serverless platforms like Vercel)
+    await runVulnerabilityScan(job.id, target, depth || 'standard');
+
+    // Retrieve the fully finished scan job with results
+    const finishedJob = await db.getScanJob(job.id);
 
     // Audit logs entry
     await logAudit(req, user.id, `POST /api/scans/vuln target=${target} jobId=${job.id}`, 'VULNERABILITY_SCAN', 'success');
 
-    return NextResponse.json(job);
+    return NextResponse.json(finishedJob || job);
   } catch (err: any) {
     console.error('Failed to initiate vulnerability scan:', err);
     return errorResponse('INTERNAL_SERVER_ERROR', 'An unexpected server error occurred.', 500);

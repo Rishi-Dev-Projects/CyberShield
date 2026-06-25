@@ -18,14 +18,20 @@ export default function LayoutShell({ children }: { children: React.ReactNode })
   }, [initialize]);
 
   // Determine if page is public
-  const isPublicPage = pathname === '/';
+  const isPublicPage = pathname === '/' || pathname === '/login' || pathname === '/register';
 
   useEffect(() => {
-    // If user lands on login/register, redirect directly to dashboard
-    if (pathname === '/login' || pathname === '/register') {
+    if (isLoading) return;
+
+    const publicPages = ['/', '/login', '/register'];
+    const isPublic = publicPages.includes(pathname);
+
+    if (!isAuthenticated && !isPublic) {
+      router.push('/login');
+    } else if (isAuthenticated && (pathname === '/login' || pathname === '/register')) {
       router.push('/dashboard');
     }
-  }, [pathname, router]);
+  }, [pathname, isAuthenticated, isLoading, router]);
 
   if (isLoading) {
     return (

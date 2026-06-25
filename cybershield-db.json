@@ -173,9 +173,720 @@
       "userId": "dcb597f3-3f26-453d-b294-330d23f0e16e",
       "createdAt": "2026-06-23T08:31:02.864Z",
       "completedAt": "2026-06-23T08:31:06.852Z"
+    },
+    {
+      "id": "92fupn39mxqnf9wpsx1vlh",
+      "type": "PORT_SCAN",
+      "target": "scanme.nmap.org",
+      "scanConfig": {
+        "scanType": "TCP_CONNECT",
+        "ports": "22,80,443,3000,3306,3389,8080"
+      },
+      "status": "COMPLETED",
+      "results": {
+        "target": "scanme.nmap.org",
+        "ports": [
+          {
+            "port": 22,
+            "state": "open",
+            "service": "ssh",
+            "version": "OpenSSH 8.9p1 Ubuntu 3ubuntu0.1"
+          },
+          {
+            "port": 80,
+            "state": "open",
+            "service": "http",
+            "version": "nginx 1.18.0"
+          },
+          {
+            "port": 443,
+            "state": "open",
+            "service": "https",
+            "version": "nginx 1.18.0 (SSL)"
+          },
+          {
+            "port": 3000,
+            "state": "open",
+            "service": "http-node",
+            "version": "Node.js Express App"
+          },
+          {
+            "port": 3306,
+            "state": "closed",
+            "service": "mysql",
+            "version": "-"
+          },
+          {
+            "port": 3389,
+            "state": "closed",
+            "service": "ms-wbt-server",
+            "version": "-"
+          },
+          {
+            "port": 8080,
+            "state": "open",
+            "service": "http-proxy",
+            "version": "Apache Tomcat 9.0.58"
+          }
+        ],
+        "scanDuration": 3.82,
+        "rawOutput": "# Nmap scan initiated\nNmap scan report for scanme.nmap.org\nHost is up.\nPORT     STATE SERVICE VERSION\n22/tcp open  ssh  OpenSSH 8.9p1 Ubuntu 3ubuntu0.1\n80/tcp open  http  nginx 1.18.0\n443/tcp open  https  nginx 1.18.0 (SSL)\n3000/tcp open  http-node  Node.js Express App\n8080/tcp open  http-proxy  Apache Tomcat 9.0.58"
+      },
+      "errorMsg": null,
+      "userId": "83e92fa3-6b66-42cf-8ad4-112265e95e02",
+      "createdAt": "2026-06-25T05:32:16.553Z",
+      "completedAt": "2026-06-25T05:32:20.904Z"
+    },
+    {
+      "id": "uawt7ew3ksqids2hdpf18",
+      "type": "PORT_SCAN",
+      "target": "localhost",
+      "scanConfig": {
+        "scanType": "TCP_CONNECT",
+        "ports": "22,80,3000,8080"
+      },
+      "status": "COMPLETED",
+      "results": {
+        "target": "localhost",
+        "ports": [
+          {
+            "port": 22,
+            "state": "closed",
+            "service": "ssh",
+            "version": "-"
+          },
+          {
+            "port": 80,
+            "state": "closed",
+            "service": "http",
+            "version": "-"
+          },
+          {
+            "port": 3000,
+            "state": "open",
+            "service": "http-node",
+            "version": "Node.js Express App"
+          },
+          {
+            "port": 8080,
+            "state": "closed",
+            "service": "http-proxy",
+            "version": "-"
+          }
+        ],
+        "scanDuration": 0.015,
+        "rawOutput": "# Custom Socket TCP scan initiated\nScan report for localhost\nHost is up.\nPORT     STATE SERVICE VERSION\n3000/tcp open  http-node  Node.js Express App"
+      },
+      "errorMsg": null,
+      "userId": "1",
+      "createdAt": "2026-06-25T05:35:33.974Z",
+      "completedAt": "2026-06-25T05:35:34.165Z"
+    },
+    {
+      "id": "3p5tlj9ml5bdu4wtw8416h",
+      "type": "PORT_SCAN",
+      "target": "scanme.nmap.org",
+      "scanConfig": {
+        "scanType": "TCP_CONNECT",
+        "ports": "22,80,443,3000,3306,3389,8080"
+      },
+      "status": "COMPLETED",
+      "results": {
+        "target": "scanme.nmap.org",
+        "ports": [
+          {
+            "port": 22,
+            "state": "open",
+            "service": "ssh",
+            "version": "OpenSSH 8.9p1 Ubuntu 3ubuntu0.1"
+          },
+          {
+            "port": 80,
+            "state": "open",
+            "service": "http",
+            "version": "nginx 1.18.0"
+          },
+          {
+            "port": 443,
+            "state": "closed",
+            "service": "https",
+            "version": "-"
+          },
+          {
+            "port": 3000,
+            "state": "closed",
+            "service": "http-node",
+            "version": "-"
+          },
+          {
+            "port": 3306,
+            "state": "closed",
+            "service": "mysql",
+            "version": "-"
+          },
+          {
+            "port": 3389,
+            "state": "closed",
+            "service": "ms-wbt-server",
+            "version": "-"
+          },
+          {
+            "port": 8080,
+            "state": "closed",
+            "service": "http-proxy",
+            "version": "-"
+          }
+        ],
+        "scanDuration": 1.933,
+        "rawOutput": "# Custom Socket TCP scan initiated\nScan report for scanme.nmap.org\nHost is up.\nPORT     STATE SERVICE VERSION\n22/tcp open  ssh  OpenSSH 8.9p1 Ubuntu 3ubuntu0.1\n80/tcp open  http  nginx 1.18.0"
+      },
+      "errorMsg": null,
+      "userId": "83e92fa3-6b66-42cf-8ad4-112265e95e02",
+      "createdAt": "2026-06-25T05:37:11.559Z",
+      "completedAt": "2026-06-25T05:37:13.918Z"
+    },
+    {
+      "id": "w4ok84tpp4myzdfkxyloyt",
+      "type": "PORT_SCAN",
+      "target": "scanme.nmap.org",
+      "scanConfig": {
+        "scanType": "SYN_STEALTH",
+        "ports": "22,80,443,3000,3306,3389,8080"
+      },
+      "status": "COMPLETED",
+      "results": {
+        "target": "scanme.nmap.org",
+        "ports": [
+          {
+            "port": 22,
+            "state": "open",
+            "service": "ssh",
+            "version": "OpenSSH 8.9p1 Ubuntu 3ubuntu0.1"
+          },
+          {
+            "port": 80,
+            "state": "open",
+            "service": "http",
+            "version": "nginx 1.18.0"
+          },
+          {
+            "port": 443,
+            "state": "closed",
+            "service": "https",
+            "version": "-"
+          },
+          {
+            "port": 3000,
+            "state": "closed",
+            "service": "http-node",
+            "version": "-"
+          },
+          {
+            "port": 3306,
+            "state": "closed",
+            "service": "mysql",
+            "version": "-"
+          },
+          {
+            "port": 3389,
+            "state": "closed",
+            "service": "ms-wbt-server",
+            "version": "-"
+          },
+          {
+            "port": 8080,
+            "state": "closed",
+            "service": "http-proxy",
+            "version": "-"
+          }
+        ],
+        "scanDuration": 1.584,
+        "rawOutput": "# Custom Socket TCP scan initiated\nScan report for scanme.nmap.org\nHost is up.\nPORT     STATE SERVICE VERSION\n22/tcp open  ssh  OpenSSH 8.9p1 Ubuntu 3ubuntu0.1\n80/tcp open  http  nginx 1.18.0"
+      },
+      "errorMsg": null,
+      "userId": "83e92fa3-6b66-42cf-8ad4-112265e95e02",
+      "createdAt": "2026-06-25T05:40:30.764Z",
+      "completedAt": "2026-06-25T05:40:33.078Z"
+    },
+    {
+      "id": "3tqktm6lbcexsek7qlzzn",
+      "type": "VULNERABILITY_ASSESSMENT",
+      "target": "scanme.nmap.org",
+      "scanConfig": {
+        "depth": "standard"
+      },
+      "status": "COMPLETED",
+      "results": {
+        "target": "scanme.nmap.org",
+        "vulnerabilities": [
+          {
+            "cveId": "CVE-2023-25136",
+            "severity": "MEDIUM",
+            "description": "A pre-auth double free vulnerability in OpenSSH server releases 9.1 allows remote Denial of Service.",
+            "affectedService": "OpenSSH/9.1",
+            "cvssScore": 6.5,
+            "remediation": "Update OpenSSH to version 9.2 or apply strict connection rules.",
+            "references": [
+              "https://www.openssh.com/txt/release-9.2"
+            ]
+          },
+          {
+            "cveId": "CVE-2023-38408",
+            "severity": "LOW",
+            "description": "OpenSSH agent forwarding security restriction bypass vulnerability allows local agents hijacking under specialized environment.",
+            "affectedService": "OpenSSH Agent/8.9p1",
+            "cvssScore": 4.2,
+            "remediation": "Ensure ssh agent forwarding is only enabled for secure servers and restrict user privileges.",
+            "references": [
+              "https://www.openssh.com/txt/release-8.9"
+            ]
+          }
+        ],
+        "summary": {
+          "critical": 0,
+          "high": 0,
+          "medium": 1,
+          "low": 1,
+          "informational": 0
+        }
+      },
+      "errorMsg": null,
+      "userId": "83e92fa3-6b66-42cf-8ad4-112265e95e02",
+      "createdAt": "2026-06-25T05:40:58.371Z",
+      "completedAt": "2026-06-25T05:41:02.430Z"
+    },
+    {
+      "id": "pkqlzluxpr8twyptjw18v",
+      "type": "PORT_SCAN",
+      "target": "192.168.4.1",
+      "scanConfig": {
+        "scanType": "TCP_CONNECT",
+        "ports": "22,80,443,3000,3306,3389,8080"
+      },
+      "status": "COMPLETED",
+      "results": {
+        "target": "192.168.4.1",
+        "ports": [
+          {
+            "port": 22,
+            "state": "closed",
+            "service": "ssh",
+            "version": "-"
+          },
+          {
+            "port": 80,
+            "state": "closed",
+            "service": "http",
+            "version": "-"
+          },
+          {
+            "port": 443,
+            "state": "closed",
+            "service": "https",
+            "version": "-"
+          },
+          {
+            "port": 3000,
+            "state": "closed",
+            "service": "http-node",
+            "version": "-"
+          },
+          {
+            "port": 3306,
+            "state": "closed",
+            "service": "mysql",
+            "version": "-"
+          },
+          {
+            "port": 3389,
+            "state": "closed",
+            "service": "ms-wbt-server",
+            "version": "-"
+          },
+          {
+            "port": 8080,
+            "state": "closed",
+            "service": "http-proxy",
+            "version": "-"
+          }
+        ],
+        "scanDuration": 1.749,
+        "rawOutput": "# Custom Socket TCP scan initiated\nScan report for 192.168.4.1\nHost is up.\nPORT     STATE SERVICE VERSION\n"
+      },
+      "errorMsg": null,
+      "userId": "admin-id",
+      "createdAt": "2026-06-25T06:18:09.107Z",
+      "completedAt": "2026-06-25T06:18:11.064Z"
+    },
+    {
+      "id": "5mkca61pq7x9oj2c1ompmb",
+      "type": "PORT_SCAN",
+      "target": "127.0.0.0.1",
+      "scanConfig": {
+        "scanType": "TCP_CONNECT",
+        "ports": "22,80,443,3000,3306,3389,8080"
+      },
+      "status": "COMPLETED",
+      "results": {
+        "target": "127.0.0.0.1",
+        "ports": [
+          {
+            "port": 22,
+            "state": "closed",
+            "service": "ssh",
+            "version": "-"
+          },
+          {
+            "port": 80,
+            "state": "closed",
+            "service": "http",
+            "version": "-"
+          },
+          {
+            "port": 443,
+            "state": "closed",
+            "service": "https",
+            "version": "-"
+          },
+          {
+            "port": 3000,
+            "state": "closed",
+            "service": "http-node",
+            "version": "-"
+          },
+          {
+            "port": 3306,
+            "state": "closed",
+            "service": "mysql",
+            "version": "-"
+          },
+          {
+            "port": 3389,
+            "state": "closed",
+            "service": "ms-wbt-server",
+            "version": "-"
+          },
+          {
+            "port": 8080,
+            "state": "closed",
+            "service": "http-proxy",
+            "version": "-"
+          }
+        ],
+        "scanDuration": 0.017,
+        "rawOutput": "# Custom Socket TCP scan initiated\nScan report for 127.0.0.0.1\nHost is up.\nPORT     STATE SERVICE VERSION\n"
+      },
+      "errorMsg": null,
+      "userId": "admin-id",
+      "createdAt": "2026-06-25T06:18:32.653Z",
+      "completedAt": "2026-06-25T06:18:32.904Z"
+    },
+    {
+      "id": "nv3qgttk9yhfqy99c105",
+      "type": "PORT_SCAN",
+      "target": "jeetfurniture.com",
+      "scanConfig": {
+        "scanType": "TCP_CONNECT",
+        "ports": "22,80,443,3000,3306,3389,8080"
+      },
+      "status": "COMPLETED",
+      "results": {
+        "target": "jeetfurniture.com",
+        "ports": [
+          {
+            "port": 22,
+            "state": "closed",
+            "service": "ssh",
+            "version": "-"
+          },
+          {
+            "port": 80,
+            "state": "open",
+            "service": "http",
+            "version": "nginx 1.18.0"
+          },
+          {
+            "port": 443,
+            "state": "open",
+            "service": "https",
+            "version": "nginx 1.18.0 (SSL)"
+          },
+          {
+            "port": 3000,
+            "state": "closed",
+            "service": "http-node",
+            "version": "-"
+          },
+          {
+            "port": 3306,
+            "state": "closed",
+            "service": "mysql",
+            "version": "-"
+          },
+          {
+            "port": 3389,
+            "state": "closed",
+            "service": "ms-wbt-server",
+            "version": "-"
+          },
+          {
+            "port": 8080,
+            "state": "closed",
+            "service": "http-proxy",
+            "version": "-"
+          }
+        ],
+        "scanDuration": 1.608,
+        "rawOutput": "# Custom Socket TCP scan initiated\nScan report for jeetfurniture.com\nHost is up.\nPORT     STATE SERVICE VERSION\n80/tcp open  http  nginx 1.18.0\n443/tcp open  https  nginx 1.18.0 (SSL)"
+      },
+      "errorMsg": null,
+      "userId": "admin-id",
+      "createdAt": "2026-06-25T06:18:47.729Z",
+      "completedAt": "2026-06-25T06:18:49.920Z"
+    },
+    {
+      "id": "o1ols2b4hkckrvtnngbj4",
+      "type": "PORT_SCAN",
+      "target": "64.29.17.65",
+      "scanConfig": {
+        "scanType": "TCP_CONNECT",
+        "ports": "22,80,443,3000,3306,3389,8080"
+      },
+      "status": "COMPLETED",
+      "results": {
+        "target": "64.29.17.65",
+        "ports": [
+          {
+            "port": 22,
+            "state": "closed",
+            "service": "ssh",
+            "version": "-"
+          },
+          {
+            "port": 80,
+            "state": "open",
+            "service": "http",
+            "version": "nginx 1.18.0"
+          },
+          {
+            "port": 443,
+            "state": "open",
+            "service": "https",
+            "version": "nginx 1.18.0 (SSL)"
+          },
+          {
+            "port": 3000,
+            "state": "closed",
+            "service": "http-node",
+            "version": "-"
+          },
+          {
+            "port": 3306,
+            "state": "closed",
+            "service": "mysql",
+            "version": "-"
+          },
+          {
+            "port": 3389,
+            "state": "closed",
+            "service": "ms-wbt-server",
+            "version": "-"
+          },
+          {
+            "port": 8080,
+            "state": "closed",
+            "service": "http-proxy",
+            "version": "-"
+          }
+        ],
+        "scanDuration": 1.584,
+        "rawOutput": "# Custom Socket TCP scan initiated\nScan report for 64.29.17.65\nHost is up.\nPORT     STATE SERVICE VERSION\n80/tcp open  http  nginx 1.18.0\n443/tcp open  https  nginx 1.18.0 (SSL)"
+      },
+      "errorMsg": null,
+      "userId": "admin-id",
+      "createdAt": "2026-06-25T06:20:28.275Z",
+      "completedAt": "2026-06-25T06:20:30.101Z"
+    },
+    {
+      "id": "yeoq98ifsdgwwe24exy8rd",
+      "type": "PORT_SCAN",
+      "target": "216.198.79.67",
+      "scanConfig": {
+        "scanType": "TCP_CONNECT",
+        "ports": "22,80,443,3000,3306,3389,8080"
+      },
+      "status": "COMPLETED",
+      "results": {
+        "target": "216.198.79.67",
+        "ports": [
+          {
+            "port": 22,
+            "state": "closed",
+            "service": "ssh",
+            "version": "-"
+          },
+          {
+            "port": 80,
+            "state": "open",
+            "service": "http",
+            "version": "nginx 1.18.0"
+          },
+          {
+            "port": 443,
+            "state": "open",
+            "service": "https",
+            "version": "nginx 1.18.0 (SSL)"
+          },
+          {
+            "port": 3000,
+            "state": "closed",
+            "service": "http-node",
+            "version": "-"
+          },
+          {
+            "port": 3306,
+            "state": "closed",
+            "service": "mysql",
+            "version": "-"
+          },
+          {
+            "port": 3389,
+            "state": "closed",
+            "service": "ms-wbt-server",
+            "version": "-"
+          },
+          {
+            "port": 8080,
+            "state": "closed",
+            "service": "http-proxy",
+            "version": "-"
+          }
+        ],
+        "scanDuration": 1.506,
+        "rawOutput": "# Custom Socket TCP scan initiated\nScan report for 216.198.79.67\nHost is up.\nPORT     STATE SERVICE VERSION\n80/tcp open  http  nginx 1.18.0\n443/tcp open  https  nginx 1.18.0 (SSL)"
+      },
+      "errorMsg": null,
+      "userId": "admin-id",
+      "createdAt": "2026-06-25T06:21:08.405Z",
+      "completedAt": "2026-06-25T06:21:10.456Z"
+    },
+    {
+      "id": "l93qhm3yws36ucsbzg0q8",
+      "type": "VULNERABILITY_ASSESSMENT",
+      "target": "jeetfurniture.com",
+      "scanConfig": {
+        "depth": "standard"
+      },
+      "status": "COMPLETED",
+      "results": {
+        "target": "jeetfurniture.com",
+        "vulnerabilities": [
+          {
+            "cveId": "CVE-2023-27163",
+            "severity": "HIGH",
+            "description": "Request Baskets up to version 1.2.1 is vulnerable to Server-Side Request Forgery (SSRF) via the API config endpoint.",
+            "affectedService": "Request Baskets/1.2.1",
+            "cvssScore": 8.2,
+            "remediation": "Upgrade Request Baskets software to version 1.2.2 or higher.",
+            "references": [
+              "https://github.com/prakharprasath/CVE-2023-27163"
+            ]
+          },
+          {
+            "cveId": "CVE-2018-11776",
+            "severity": "MEDIUM",
+            "description": "Apache Struts namespace validation vulnerability allows remote attackers to execute OGNL expressions in struts config actions.",
+            "affectedService": "Apache Struts/2.5.16",
+            "cvssScore": 7.5,
+            "remediation": "Upgrade Struts to version 2.5.17 or 2.3.35, which sanitizes default namespaces parameters.",
+            "references": [
+              "https://cwiki.apache.org/confluence/display/WW/S2-057"
+            ]
+          },
+          {
+            "cveId": "CVE-2020-1938",
+            "severity": "MEDIUM",
+            "description": "Ghostcat vulnerability in Apache Tomcat AJP connector allows attackers to read arbitrary files from Tomcat root directory or execute commands.",
+            "affectedService": "Apache Tomcat/9.0.30",
+            "cvssScore": 7.5,
+            "remediation": "Disable AJP connector if unused, or restrict AJP socket connection access to localhost interface only.",
+            "references": [
+              "https://www.cnvd.org.cn/webinfo/show/5419"
+            ]
+          }
+        ],
+        "summary": {
+          "critical": 0,
+          "high": 1,
+          "medium": 2,
+          "low": 0,
+          "informational": 0
+        }
+      },
+      "errorMsg": null,
+      "userId": "admin-id",
+      "createdAt": "2026-06-25T06:21:41.793Z",
+      "completedAt": "2026-06-25T06:21:45.933Z"
     }
   ],
-  "file_hashes": [],
+  "file_hashes": [
+    {
+      "id": "0.5072548234826448",
+      "filename": "dummy_test_file.txt",
+      "fileSize": 27,
+      "sha256": "27470bfc72bcb32fce0a364a28ee249c48684d01488ff8168fd1048a419bc347",
+      "userId": "1",
+      "createdAt": "2026-06-25T05:48:11.004Z"
+    },
+    {
+      "id": "0.40133058616160444",
+      "filename": "Project PPT Format.pdf",
+      "fileSize": 71721,
+      "sha256": "15884ca803ca15219c5e232c64b5b0b75322a3551a20c6e3278ab0375be12edd",
+      "userId": "83e92fa3-6b66-42cf-8ad4-112265e95e02",
+      "createdAt": "2026-06-25T05:49:43.577Z"
+    },
+    {
+      "id": "0.9607908317851785",
+      "filename": "JEET FURNITURE INVOICE.pdf",
+      "fileSize": 136509,
+      "sha256": "c452baad2db458c8cce46f048f7c92449f14ef01917f45bf96af75ff341b7e0b",
+      "userId": "83e92fa3-6b66-42cf-8ad4-112265e95e02",
+      "createdAt": "2026-06-25T05:50:02.124Z"
+    },
+    {
+      "id": "0.10694719597291269",
+      "filename": "JEET FURNITURE INVOICE.pdf",
+      "fileSize": 136509,
+      "sha256": "c452baad2db458c8cce46f048f7c92449f14ef01917f45bf96af75ff341b7e0b",
+      "userId": "83e92fa3-6b66-42cf-8ad4-112265e95e02",
+      "createdAt": "2026-06-25T05:53:19.326Z"
+    },
+    {
+      "id": "0.8130756564685231",
+      "filename": "Project PPT Format.pdf",
+      "fileSize": 71721,
+      "sha256": "15884ca803ca15219c5e232c64b5b0b75322a3551a20c6e3278ab0375be12edd",
+      "userId": "83e92fa3-6b66-42cf-8ad4-112265e95e02",
+      "createdAt": "2026-06-25T05:53:52.917Z"
+    },
+    {
+      "id": "0.7620358221722145",
+      "filename": "dummy_test_file.txt",
+      "fileSize": 27,
+      "sha256": "27470bfc72bcb32fce0a364a28ee249c48684d01488ff8168fd1048a419bc347",
+      "userId": "1",
+      "createdAt": "2026-06-25T05:55:32.980Z"
+    },
+    {
+      "id": "0.7440642713346295",
+      "filename": "Project PPT Format.pdf",
+      "fileSize": 71721,
+      "sha256": "15884ca803ca15219c5e232c64b5b0b75322a3551a20c6e3278ab0375be12edd",
+      "userId": "83e92fa3-6b66-42cf-8ad4-112265e95e02",
+      "createdAt": "2026-06-25T06:03:58.607Z"
+    }
+  ],
   "url_analyses": [],
   "reports": [],
   "audit_logs": [],

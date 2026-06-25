@@ -12,14 +12,17 @@ const isSupabaseConfigured = () => {
 
 async function getStoredHashByFilename(filename: string) {
   if (isSupabaseConfigured()) {
-    const { data } = await supabase
-      .from('file_hashes')
-      .select('*')
-      .eq('filename', filename)
-      .order('createdAt', { ascending: false })
-      .limit(1)
-      .maybeSingle();
-    if (data) return data;
+    try {
+      const { data, error } = await supabase
+        .from('file_hashes')
+        .select('*')
+        .eq('filename', filename)
+        .order('createdAt', { ascending: false })
+        .limit(1);
+      if (!error && data && data.length > 0) return data[0];
+    } catch (e) {
+      console.error('Supabase query failed for file verify:', e);
+    }
   }
 
   // Fallback to local JSON database search
@@ -29,7 +32,7 @@ async function getStoredHashByFilename(filename: string) {
       const localDb = JSON.parse(fs.readFileSync(dbPath, 'utf-8'));
       const hashes = localDb.file_hashes || [];
       const match = hashes
-        .filter((h: any) => h.filename === filename)
+        .filter((h: any) => h && h.filename === filename)
         .sort((a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
       if (match.length > 0) return match[0];
     } catch (e) {
@@ -49,8 +52,8 @@ export async function POST(req: Request) {
     const formData = await req.formData();
     const file = formData.get('file') as File;
 
-    if (!file) {
-      return errorResponse('VALIDATION_ERROR', 'Please provide a file payload.');
+    if (!file || !file.name) {
+      return errorResponse('VALIDATION_ERROR', 'Please provide a file payload with a valid filename.');
     }
 
     const sizeLimitMB = user.role === 'STUDENT' ? 10 : 100;
@@ -85,7 +88,7 @@ export async function POST(req: Request) {
       });
     }
 
-    const isMatch = storedRecord.sha256 === sha256;
+    const isMatch = storedRecord.filename === file.name && storedRecord.sha256 === sha256;
     const message = isMatch
       ? 'File integrity verified - file matches stored hash'
       : 'Alert: Hash mismatch! The file has been modified or tampered with.';

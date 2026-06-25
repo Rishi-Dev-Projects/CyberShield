@@ -13,14 +13,11 @@ import {
   Hash, 
   FileCheck, 
   Globe, 
-  FileText, 
-  Settings, 
-  LogOut,
   User
 } from 'lucide-react';
 
 export default function Sidebar() {
-  const { user, logout } = useAuthStore();
+  const { user } = useAuthStore();
   const pathname = usePathname();
 
   const getRoleColor = (role: string) => {
@@ -53,24 +50,9 @@ export default function Sidebar() {
         { label: 'File Integrity', href: '/tools/file-integrity', icon: FileCheck },
         { label: 'URL Analyzer', href: '/tools/url-analyzer', icon: Globe },
       ]
-    },
-    {
-      group: 'Reports & Settings',
-      items: [
-        { label: 'Report Center', href: '/reports', icon: FileText },
-      ]
     }
   ];
 
-  // Add Admin Panel item if user is ADMIN
-  if (user?.role === 'ADMIN') {
-    menuItems.push({
-      group: 'Administration',
-      items: [
-        { label: 'Admin Panel', href: '/admin/dashboard', icon: Settings },
-      ]
-    });
-  }
 
   return (
     <aside className="w-64 h-screen fixed left-0 top-0 glass-panel border-r border-slate-800/50 flex flex-col justify-between z-30">
@@ -128,16 +110,6 @@ export default function Sidebar() {
         </nav>
       </div>
 
-      {/* Logout */}
-      <div className="p-4 border-t border-slate-800/40">
-        <button
-          onClick={() => logout()}
-          className="w-full flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-semibold text-slate-400 hover:text-red-400 hover:bg-red-500/10 border border-transparent hover:border-red-500/20 transition-all duration-200"
-        >
-          <LogOut className="w-4 h-4" />
-          <span>Sign Out</span>
-        </button>
-      </div>
     </aside>
   );
 }

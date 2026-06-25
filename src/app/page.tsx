@@ -81,16 +81,10 @@ export default function LandingPage() {
         </div>
         <div className="flex gap-4">
           <Link
-            href="/login"
-            className="px-5 py-2 text-sm font-semibold text-slate-300 hover:text-white transition-colors"
+            href="/dashboard"
+            className="px-5 py-2 text-sm font-semibold bg-primary text-slate-950 rounded-full shadow-neon-cyan hover:bg-cyan-400 transition-all duration-300 uppercase tracking-wider text-[11px]"
           >
-            Log In
-          </Link>
-          <Link
-            href="/register"
-            className="px-5 py-2 text-sm font-semibold bg-primary text-slate-950 rounded-full shadow-neon-cyan hover:bg-cyan-400 transition-all duration-300"
-          >
-            Register
+            Enter Console
           </Link>
         </div>
       </header>
@@ -114,16 +108,10 @@ export default function LandingPage() {
 
         <div className="mt-10 flex flex-wrap gap-4 justify-center">
           <Link
-            href="/login"
-            className="px-8 py-3.5 text-sm font-bold bg-gradient-to-r from-primary to-cyan-400 text-slate-950 rounded-lg shadow-neon-cyan hover:shadow-cyan-500/30 transition-all duration-300 transform hover:-translate-y-0.5"
+            href="/dashboard"
+            className="px-8 py-3.5 text-sm font-bold bg-gradient-to-r from-primary to-cyan-400 text-slate-950 rounded-lg shadow-neon-cyan hover:shadow-cyan-500/30 transition-all duration-300 transform hover:-translate-y-0.5 uppercase tracking-wider"
           >
             Initialize Terminal Console
-          </Link>
-          <Link
-            href="/register"
-            className="px-8 py-3.5 text-sm font-bold border border-slate-800 bg-slate-900/40 rounded-lg text-slate-300 hover:text-white hover:bg-slate-900/80 transition-all duration-300"
-          >
-            Register Student Account
           </Link>
         </div>
 

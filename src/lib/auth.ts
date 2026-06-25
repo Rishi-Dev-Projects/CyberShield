@@ -27,9 +27,18 @@ const isSupabaseConfigured = () => {
   return url && !url.includes('placeholder-project');
 };
 
+const defaultAdmin: UserProfile = {
+  id: 'admin-id',
+  username: 'administrator',
+  email: 'admin@cybershield.local',
+  role: 'ADMIN',
+  isActive: true,
+  createdAt: '2026-06-25T11:36:00Z'
+};
+
 export const useAuthStore = create<AuthState>((set) => ({
-  user: null,
-  isAuthenticated: false,
+  user: defaultAdmin,
+  isAuthenticated: true,
   isLoading: false,
   error: null,
 
@@ -38,42 +47,14 @@ export const useAuthStore = create<AuthState>((set) => ({
   initialize: async () => {
     set({ isLoading: true });
     try {
-      if (isSupabaseConfigured()) {
-        const { data: { session } } = await supabase.auth.getSession();
-         if (session?.user) {
-          const { data: profile } = await supabase
-            .from('profiles')
-            .select('*')
-            .eq('id', session.user.id)
-            .maybeSingle();
-
-          const activeUser: UserProfile = {
-            id: session.user.id,
-            username: profile?.username || session.user.user_metadata?.username || session.user.email?.split('@')[0] || 'analyst',
-            email: session.user.email || '',
-            role: profile?.role || session.user.user_metadata?.role || 'STUDENT',
-            isActive: profile?.is_active !== undefined ? profile.is_active : true,
-            createdAt: profile?.created_at || session.user.created_at || new Date().toISOString()
-          };
-
-          set({
-            user: activeUser,
-            isAuthenticated: true,
-          });
-          localStorage.setItem('demo_user', JSON.stringify(activeUser));
-          set({ isLoading: false });
-          return;
-        }
-      } else {
-        // Mock offline session check from localStorage
-        const storedUser = localStorage.getItem('demo_user');
-        if (storedUser) {
-          set({
-            user: JSON.parse(storedUser),
-            isAuthenticated: true,
-          });
-        }
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('demo_user', JSON.stringify(defaultAdmin));
       }
+      set({
+        user: defaultAdmin,
+        isAuthenticated: true,
+        isLoading: false
+      });
     } catch (err) {
       console.error('Session restoration failed:', err);
     } finally {
@@ -81,137 +62,20 @@ export const useAuthStore = create<AuthState>((set) => ({
     }
   },
 
-  login: async (credentials) => {
-    set({ isLoading: true, error: null });
-    try {
-      if (isSupabaseConfigured()) {
-        const { data, error } = await supabase.auth.signInWithPassword({
-          email: credentials.email,
-          password: credentials.password
-        });
-
-        if (error) throw error;
-        if (!data.user) throw new Error('No user returned from Supabase.');
-
-        let { data: profile } = await supabase
-          .from('profiles')
-          .select('*')
-          .eq('id', data.user.id)
-          .maybeSingle();
-
-        const activeUser: UserProfile = {
-          id: data.user.id,
-          username: profile?.username || data.user.user_metadata?.username || data.user.email?.split('@')[0] || 'analyst',
-          email: data.user.email || '',
-          role: profile?.role || data.user.user_metadata?.role || 'STUDENT',
-          isActive: profile?.is_active !== undefined ? profile.is_active : true,
-          createdAt: profile?.created_at || data.user.created_at || new Date().toISOString()
-        };
-
-        localStorage.setItem('demo_user', JSON.stringify(activeUser));
-        set({ user: activeUser, isAuthenticated: true, isLoading: false });
-        return activeUser;
-      } else {
-        // Standalone offline mock login
-        const email = credentials.email.toLowerCase();
-        let role: 'ADMIN' | 'SECURITY_ANALYST' | 'STUDENT' = 'STUDENT';
-        let username = email.split('@')[0];
-
-        if (email.includes('admin')) {
-          role = 'ADMIN';
-        } else if (email.includes('analyst')) {
-          role = 'SECURITY_ANALYST';
-        }
-
-        const mockUser: UserProfile = {
-          id: Math.random().toString(),
-          username,
-          email,
-          role,
-          isActive: true,
-          createdAt: new Date().toISOString()
-        };
-
-        localStorage.setItem('demo_user', JSON.stringify(mockUser));
-        set({ user: mockUser, isAuthenticated: true, isLoading: false });
-        return mockUser;
-      }
-    } catch (err: any) {
-      const errMsg = err.message || 'Login failed.';
-      set({ error: errMsg, isLoading: false });
-      throw new Error(errMsg);
+  login: async () => {
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('demo_user', JSON.stringify(defaultAdmin));
     }
+    set({ user: defaultAdmin, isAuthenticated: true, isLoading: false });
+    return defaultAdmin;
   },
 
-  register: async (data) => {
-    set({ isLoading: true, error: null });
-    try {
-      if (isSupabaseConfigured()) {
-        const { data: signUpData, error: signUpErr } = await supabase.auth.signUp({
-          email: data.email,
-          password: data.password,
-          options: {
-            data: {
-              role: data.role || 'STUDENT',
-              username: data.username
-            }
-          }
-        });
-
-        if (signUpErr) throw signUpErr;
-        if (!signUpData.user) throw new Error('Failed to sign up.');
-
-        await supabase
-          .from('profiles')
-          .insert([
-            {
-              id: signUpData.user.id,
-              username: data.username,
-              email: data.email,
-              role: data.role || 'STUDENT',
-              is_active: true
-            }
-          ]);
-      } else {
-        // Standalone mock registration
-        const mockUser: UserProfile = {
-          id: Math.random().toString(),
-          username: data.username,
-          email: data.email,
-          role: (data.role || 'STUDENT') as any,
-          isActive: true,
-          createdAt: new Date().toISOString()
-        };
-        localStorage.setItem('demo_user', JSON.stringify(mockUser));
-      }
-      set({ isLoading: false });
-    } catch (err: any) {
-      const errMsg = err.message || 'Registration failed.';
-      set({ error: errMsg, isLoading: false });
-      throw new Error(errMsg);
-    }
+  register: async () => {
+    set({ isLoading: false });
   },
 
   logout: async () => {
-    set({ isLoading: true });
-    try {
-      if (isSupabaseConfigured()) {
-        await supabase.auth.signOut();
-      }
-    } catch (err) {
-      console.error('Signout error:', err);
-    } finally {
-      localStorage.removeItem('demo_user');
-      set({
-        user: null,
-        isAuthenticated: false,
-        isLoading: false,
-        error: null,
-      });
-
-      if (typeof window !== 'undefined') {
-        window.location.href = '/login';
-      }
-    }
+    // No-op for direct admin access
+    set({ isLoading: false });
   },
 }));

@@ -255,12 +255,13 @@ export const db = {
     };
 
     if (isSupabaseConfigured()) {
-      await supabase.from('file_hashes').insert([newHash]);
-    } else {
-      const local = getLocalDb();
-      local.file_hashes.push(newHash);
-      writeLocalDb(local);
+      const { data, error } = await supabase.from('file_hashes').insert([newHash]).select().single();
+      if (!error && data) return data;
     }
+
+    const local = getLocalDb();
+    local.file_hashes.push(newHash);
+    writeLocalDb(local);
     return newHash;
   },
 
@@ -300,107 +301,6 @@ export const db = {
     return newAnalysis;
   },
 
-  // Reports
-  async getReports(userId: string) {
-    if (isSupabaseConfigured()) {
-      const { data } = await supabase.from('reports').select('*').eq('userId', userId).order('createdAt', { ascending: false });
-      if (data) return data;
-    }
-    return getLocalDb().reports.filter((r: any) => r.userId === userId).sort((a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
-  },
-
-  async getReport(id: string) {
-    if (isSupabaseConfigured()) {
-      const { data } = await supabase.from('reports').select('*').eq('id', id).single();
-      if (data) return data;
-    }
-    return getLocalDb().reports.find((r: any) => r.id === id) || null;
-  },
-
-  async createReport(report: { format: string; filename: string; content: string; jobIds: string[]; userId: string }) {
-    const newReport = {
-      id: Math.random().toString(36).substring(2, 15),
-      format: report.format,
-      filename: report.filename,
-      content: report.content, // base64 buffer representation
-      jobIds: report.jobIds,
-      userId: report.userId,
-      createdAt: new Date().toISOString(),
-      expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString() // 90 days retention
-    };
-
-    if (isSupabaseConfigured()) {
-      await supabase.from('reports').insert([newReport]);
-    } else {
-      const local = getLocalDb();
-      local.reports.push(newReport);
-      writeLocalDb(local);
-    }
-    return newReport;
-  },
-
-  // Admin User CRUD listing
-  async listUsers() {
-    if (isSupabaseConfigured()) {
-      // Fetch users from profiles
-      const { data } = await supabase.from('profiles').select('*');
-      if (data) {
-        return data.map((p: any) => ({
-          id: p.id,
-          username: p.username,
-          email: p.email,
-          role: p.role,
-          isActive: p.is_active,
-          createdAt: p.created_at
-        }));
-      }
-    }
-    return getLocalDb().profiles;
-  },
-
-  async adminCreateUser(user: { username: string; email: string; role: string }) {
-    const newUser = {
-      id: Math.random().toString(),
-      username: user.username,
-      email: user.email,
-      role: user.role,
-      isActive: true,
-      createdAt: new Date().toISOString()
-    };
-    
-    if (isSupabaseConfigured()) {
-      await supabase.from('profiles').insert([{
-        id: newUser.id,
-        username: user.username,
-        email: user.email,
-        role: user.role,
-        is_active: true
-      }]);
-    } else {
-      const local = getLocalDb();
-      local.profiles.push(newUser);
-      writeLocalDb(local);
-    }
-    return newUser;
-  },
-
-  async adminUpdateUser(id: string, updates: { role?: string; isActive?: boolean }) {
-    const mappedUpdates: any = {};
-    if (updates.role) mappedUpdates.role = updates.role;
-    if (updates.isActive !== undefined) mappedUpdates.is_active = updates.isActive;
-
-    if (isSupabaseConfigured()) {
-      await supabase.from('profiles').update(mappedUpdates).eq('id', id);
-    } else {
-      const local = getLocalDb();
-      const idx = local.profiles.findIndex((u: any) => u.id === id);
-      if (idx !== -1) {
-        if (updates.role) local.profiles[idx].role = updates.role;
-        if (updates.isActive !== undefined) local.profiles[idx].isActive = updates.isActive;
-        writeLocalDb(local);
-      }
-    }
-  }
 };
 
 interface RateLimitConfig {

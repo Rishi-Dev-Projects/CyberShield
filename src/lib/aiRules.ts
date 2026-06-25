@@ -8,7 +8,7 @@ export interface Recommendation {
 }
 
 export interface SecurityContext {
-  tool: 'dashboard' | 'port-scanner' | 'vulnerability' | 'password' | 'hash' | 'file-integrity' | 'url-analyzer' | 'reports';
+  tool: 'dashboard' | 'port-scanner' | 'vulnerability' | 'password' | 'hash' | 'file-integrity' | 'url-analyzer';
   data?: any;
   userRole?: 'ADMIN' | 'SECURITY_ANALYST' | 'STUDENT';
 }

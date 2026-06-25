@@ -123,6 +123,7 @@ export default function FileIntegrityPage() {
             setSelectedFile(null);
             setError(null);
             setStoreResult(null);
+            setVerifyResult(null);
           }}
           className={`px-6 py-3 text-xs font-bold uppercase tracking-wider border-b-2 transition-colors ${
             activeTab === 'store' 
@@ -137,6 +138,7 @@ export default function FileIntegrityPage() {
             setActiveTab('verify');
             setSelectedFile(null);
             setError(null);
+            setStoreResult(null);
             setVerifyResult(null);
           }}
           className={`px-6 py-3 text-xs font-bold uppercase tracking-wider border-b-2 transition-colors ${
@@ -179,6 +181,7 @@ export default function FileIntegrityPage() {
               }`}
             >
               <input
+                key={`${activeTab}-${selectedFile ? 'file' : 'empty'}`}
                 type="file"
                 id="file-upload-input"
                 onChange={handleFileChange}
@@ -260,6 +263,11 @@ export default function FileIntegrityPage() {
                 <div className="flex items-center gap-2 text-accent text-xs font-bold bg-accent/5 p-3 rounded-xl border border-accent/15 shadow-neon-green">
                   <CheckCircle2 className="w-4 h-4 text-accent animate-bounce" />
                   <span>Verified: File integrity matches!</span>
+                </div>
+              ) : verifyResult.storedHash === null ? (
+                <div className="flex items-center gap-2 text-yellow-500 text-xs font-bold bg-yellow-500/5 p-3 rounded-xl border border-yellow-500/15 shadow-neon-yellow">
+                  <AlertTriangle className="w-4 h-4 text-yellow-500 animate-pulse" />
+                  <span>Unregistered: File not found in database!</span>
                 </div>
               ) : (
                 <div className="flex items-center gap-2 text-destructive text-xs font-bold bg-destructive/5 p-3 rounded-xl border border-destructive/15 shadow-neon-red">

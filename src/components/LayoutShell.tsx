@@ -18,18 +18,14 @@ export default function LayoutShell({ children }: { children: React.ReactNode })
   }, [initialize]);
 
   // Determine if page is public
-  const isPublicPage = pathname === '/' || pathname === '/login' || pathname === '/register';
+  const isPublicPage = pathname === '/';
 
   useEffect(() => {
-    // If not public, and user is not authenticated and not loading, redirect to login
-    if (!isPublicPage && !isAuthenticated && !isLoading) {
-      router.push('/login');
-    }
-    // If user is authenticated and on login/register pages, redirect to dashboard
-    if (isAuthenticated && (pathname === '/login' || pathname === '/register')) {
+    // If user lands on login/register, redirect directly to dashboard
+    if (pathname === '/login' || pathname === '/register') {
       router.push('/dashboard');
     }
-  }, [isAuthenticated, isPublicPage, isLoading, pathname, router]);
+  }, [pathname, router]);
 
   if (isLoading) {
     return (
@@ -44,7 +40,7 @@ export default function LayoutShell({ children }: { children: React.ReactNode })
     );
   }
 
-  // For landing page, login, or registration, show raw page view
+  // For landing page, show raw page view
   if (isPublicPage) {
     return <>{children}</>;
   }

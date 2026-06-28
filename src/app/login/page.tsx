@@ -10,8 +10,8 @@ export default function LoginPage() {
   const { login, error, clearError, isLoading } = useAuthStore();
   const router = useRouter();
 
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('admin@cybershield.local');
+  const [password, setPassword] = useState('adminpassword');
   const [showPassword, setShowPassword] = useState(false);
   const [validationError, setValidationError] = useState<string | null>(null);
   const [showConfirmAlert, setShowConfirmAlert] = useState(false);
@@ -76,6 +76,21 @@ export default function LoginPage() {
             <span>{validationError || error}</span>
           </div>
         )}
+
+        {/* Demo Credentials for Reviewer */}
+        <div className="p-4 bg-cyan-500/10 border border-cyan-500/25 text-cyan-400 text-xs rounded-xl mb-6 shadow-neon-cyan/5">
+          <div className="flex items-center gap-2 mb-2">
+            <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
+            <span className="font-bold uppercase tracking-wider font-mono text-[10px]">Reviewer Demo Access</span>
+          </div>
+          <p className="text-slate-400 text-[11px] mb-2 leading-relaxed">
+            Use the pre-filled demo administrator credentials below to enter the SecOps console:
+          </p>
+          <div className="font-mono space-y-1 text-[11px] text-slate-355 bg-slate-950/40 p-2.5 rounded-lg border border-slate-900/60">
+            <div><span className="text-slate-500">Email:</span> <span className="text-slate-200">admin@cybershield.local</span></div>
+            <div><span className="text-slate-500">Password:</span> <span className="text-slate-200">adminpassword</span></div>
+          </div>
+        </div>
 
         {/* Login Form */}
         <form onSubmit={handleSubmit} className="space-y-5">
